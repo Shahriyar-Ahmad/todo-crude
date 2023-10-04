@@ -6,8 +6,14 @@ import Button from './Button'
 
 // React Router
 import { useNavigate } from 'react-router'
+import { useDispatch } from 'react-redux';
+import { addTask } from '../features/todoslice/todoSlice';
+
+// uuid
+import { uuid } from 'uuidv4';
 
 function AddTask() {
+   const dispatch = useDispatch();
     const [values,setValues] = useState({
         task: '',
         detial: ''
@@ -15,6 +21,11 @@ function AddTask() {
     const navigate = useNavigate();
     const handleAddTask = () =>{
         setValues({task: '', detial: ''});
+        dispatch(addTask({
+          id: uuid(),
+          task: values.task,
+          detial : values.detial
+        }));
         navigate('/');
         console.log(values)
     }

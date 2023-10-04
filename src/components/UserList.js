@@ -7,13 +7,12 @@ import Button from './Button';
 
 // React Router
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 function UserList() {
-  const todos = [
-    { id: '1', task: 'Code', detail: 'code crude app' },
-    { id: '2', task: 'Code 2', detail: 'code cat app' }
-  ];
-  const renderCard = () => todos.map(todo => (
+   const todo = useSelector((state)=> state.todo)
+
+  const renderCard = () => todo.map(todo => (
     <div key={todo.id} className='bg-gray-300 p-5 flex items-center justify-between my-5 rounded-lg'>
       <div>
         <h3 className='font-bold text-lg text-gray-700'>{todo.task}</h3>
@@ -32,7 +31,7 @@ function UserList() {
       <Button><Link to='/add-task'>Add Task</Link></Button>
       <div className='grid  gap-5 md:grid-cols-2'>
         {
-          todos.length ? renderCard() : <p className=' text-center text-gray-700 col-span-2 font-semibold'>No User</p>
+          todo.length ? renderCard() : <p className=' text-center text-gray-700 col-span-2 font-semibold'>No User</p>
         }
       </div>
     </div>
