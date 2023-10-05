@@ -5,15 +5,29 @@ import TextField from './TextField'
 import Button from './Button'
 
 // React Router
-import { useNavigate } from 'react-router'
+import { useNavigate, useParams } from 'react-router'
+
+// React redux
+import { useSelector, useDispatch } from 'react-redux';
+import { editTask } from '../features/todoslice/todoSlice';
 
 function EditUser() {
+  const todo = useSelector((state)=> state.todo);
+  const dispatch = useDispatch()
+  const param = useParams()
+  const ExitingTask = todo.filter((todo) => todo.id === param.id);
+  const {task, detail} = ExitingTask[0]
   const [values,setValues] = useState({
-    task: '',
-    detial: ''
+    task ,
+    detail
 })
 const navigate = useNavigate();
 const handleEditTask = () =>{
+    dispatch(editTask({
+    id: param.id,
+    task: values.task,
+    detail: values.detail,
+    }))
     setValues({task: '', detial: ''});
     navigate('/');
     console.log(values)
@@ -28,8 +42,8 @@ return (
   />
   <br />
   <TextField
-    value={values.detial}
-    onChange={(e) => setValues({...values, detial: e.target.value})}
+    value={values.detail}
+    onChange={(e) => setValues({...values, detail: e.target.value})}
     label='Task Detials'
     inputProps={{type: 'email', placeholder: 'Impliment add to cart feature.'}}
   />

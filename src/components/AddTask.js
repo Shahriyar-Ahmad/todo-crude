@@ -10,21 +10,21 @@ import { useDispatch } from 'react-redux';
 import { addTask } from '../features/todoslice/todoSlice';
 
 // uuid
-import { uuid } from 'uuidv4';
+import { v4 as uuidv4 } from 'uuid';
 
 function AddTask() {
    const dispatch = useDispatch();
     const [values,setValues] = useState({
         task: '',
-        detial: ''
+        detail: ''
     })
     const navigate = useNavigate();
     const handleAddTask = () =>{
-        setValues({task: '', detial: ''});
+        setValues({task: '', detail: ''});
         dispatch(addTask({
-          id: uuid(),
+          id: uuidv4(),
           task: values.task,
-          detial : values.detial
+          detail : values.detail
         }));
         navigate('/');
         console.log(values)
@@ -39,8 +39,8 @@ function AddTask() {
       />
       <br />
       <TextField
-        value={values.detial}
-        onChange={(e) => setValues({...values, detial: e.target.value})}
+        value={values.detail}
+        onChange={(e) => setValues({...values, detail: e.target.value})}
         label='Task Detials'
         inputProps={{type: 'email', placeholder: 'Impliment add to cart feature.'}}
       />

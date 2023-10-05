@@ -7,10 +7,18 @@ import Button from './Button';
 
 // React Router
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector,useDispatch } from 'react-redux';
+import { deleteTask } from '../features/todoslice/todoSlice';
 
 function UserList() {
-   const todo = useSelector((state)=> state.todo)
+   const todo = useSelector((state)=> state.todo);
+   const dispatch = useDispatch()
+   const deleteTodo = (id) => {
+     dispatch(deleteTask({
+      id: id,
+     }))
+     console.log(todo)
+   }
 
   const renderCard = () => todo.map(todo => (
     <div key={todo.id} className='bg-gray-300 p-5 flex items-center justify-between my-5 rounded-lg'>
@@ -22,7 +30,7 @@ function UserList() {
         <Link to={`edit-task/${todo.id}`}>
         <AiOutlineEdit />
         </Link>
-        <MdDeleteOutline />
+        <MdDeleteOutline className='cursor-pointer' onClick={() => deleteTodo(todo.id)} />
       </div>
     </div>
   ))
@@ -31,7 +39,7 @@ function UserList() {
       <Button><Link to='/add-task'>Add Task</Link></Button>
       <div className='grid  gap-5 md:grid-cols-2'>
         {
-          todo.length ? renderCard() : <p className=' text-center text-gray-700 col-span-2 font-semibold'>No User</p>
+          todo.length ? renderCard() : <p className=' text-center text-gray-700 col-span-2 font-semibold'>Still Not Task here...</p>
         }
       </div>
     </div>
